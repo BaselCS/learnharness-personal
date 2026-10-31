@@ -5,7 +5,7 @@
  *   1. the four supported override files are present, managed, and switched on;
  *   2. composeInstructions() actually composes the override instead of the source;
  *   3. the personal appendix text reaches only the intended agents;
- *   4. the ten-principle material stays in the teacher, not in prober/practice;
+ *   4. the nine-principle material stays in the teacher, not in prober/practice;
  *   5. the retention-after-understanding rule is present;
  *   6. utility agents and unmanaged prompt paths are not touched.
  *
@@ -53,7 +53,7 @@ const APPENDIX_MARKERS = {
 	ar: {
 		shared: "إطار التعلم الشخصي — عقيدة مشتركة بين الوكلاء",
 		teacher: "إضافة شخصية — توجيه الموضوع والتخطيط للنقل",
-		ten: "الفئات العشر:",
+		nine: "الفئات التسع:",
 		prober: "إضافة شخصية — التحقيق مع المتعلم البالغ",
 		practice: "إضافة شخصية — التدريب كمتعلم بالغ",
 		unknown: "غير معروف",
@@ -68,7 +68,7 @@ const APPENDIX_MARKERS = {
 	en: {
 		shared: "Personal learning framework — cross-agent doctrine",
 		teacher: "Personal addition — orienting the subject and planning for transfer",
-		ten: "The ten categories:",
+		nine: "The nine categories:",
 		prober: "Personal addition — probing the adult learner",
 		practice: "Personal addition — practice as an adult, with deliberate training",
 		unknown: "Unknown",
@@ -148,7 +148,7 @@ describe("personal prompt overrides — composition", () => {
 		for (const lang of ["ar", "en"] as const) {
 			const text = composed("teacher", lang);
 			assert.ok(text.includes(MARK.teacher), "teacher appendix present");
-			assert.ok(text.includes(MARK.ten), "ten-principle orientation present");
+			assert.ok(text.includes(MARK.nine), "nine-principle orientation present");
 			assert.ok(text.includes(MARK.unknown), "unknown marker present");
 			assert.ok(text.includes(MARK.notApplicable), "not-applicable marker present");
 			assert.ok(text.includes(MARK.requiresVerification), "verification marker present");
@@ -159,13 +159,25 @@ describe("personal prompt overrides — composition", () => {
 		}
 	});
 
-	it("teacher receives ten principles exactly once (no duplication in shared/prober/practice)", () => {
+	it("teacher receives nine principles exactly once (no duplication in shared/prober/practice)", () => {
 		const teacher = composed("teacher");
 		const prober = composed("prober");
 		const practice = composed("practice");
-		assert.equal((teacher.match(new RegExp(MARK.ten, "g")) ?? []).length, 1);
-		assert.ok(!prober.includes(MARK.ten), "prober must not receive the ten principles");
-		assert.ok(!practice.includes(MARK.ten), "practice must not receive the ten principles");
+		assert.equal((teacher.match(new RegExp(MARK.nine, "g")) ?? []).length, 1);
+		assert.ok(!prober.includes(MARK.nine), "prober must not receive the nine principles");
+		assert.ok(!practice.includes(MARK.nine), "practice must not receive the nine principles");
+	});
+
+	it("contains no operational reference to religious rulings or حكم الشارع", () => {
+		for (const kind of ["prober", "teacher", "practice"] as const) {
+			for (const lang of ["ar", "en"] as const) {
+				const text = composed(kind, lang);
+				assert.ok(!text.includes("حكم الشارع"), `${kind} ${lang} must not contain حكم الشارع`);
+				assert.ok(!text.includes("حكم شرعي"), `${kind} ${lang} must not contain حكم شرعي`);
+				assert.ok(!text.toLowerCase().includes("hukm"), `${kind} ${lang} must not contain hukm`);
+				assert.ok(!text.toLowerCase().includes("religious ruling"), `${kind} ${lang} must not contain religious ruling`);
+			}
+		}
 	});
 
 	it("prober composes the adult probe appendix and shared doctrine", () => {
@@ -217,7 +229,7 @@ describe("personal prompt overrides — composition", () => {
 		const enTeacher = composed("teacher", "en");
 		// One override slot serves every app language, so both compositions
 		// carry the same installed-language appendix. This is documented.
-		for (const marker of [MARK.teacher, MARK.ten, MARK.noStage]) {
+		for (const marker of [MARK.teacher, MARK.nine, MARK.noStage]) {
 			assert.ok(arTeacher.includes(marker), `ar teacher must include ${marker}`);
 			assert.ok(enTeacher.includes(marker), `en teacher must include ${marker}`);
 		}
