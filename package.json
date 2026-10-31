@@ -1,0 +1,13 @@
+{
+  "name": "learnharness-personal",
+  "version": 1,
+  "private": true,
+  "type": "module",
+  "description": "Personal learning-framework customization for LearnHarness: appendices, generators, and deterministic composition tests. Contains no upstream application code.",
+  "scripts": {
+    "apply": "python3 scripts/apply.py",
+    "remove": "python3 scripts/remove.py",
+    "verify": "python3 scripts/verify.py",
+    "test": "bash tests/run-composition-test.sh"
+  }
+}

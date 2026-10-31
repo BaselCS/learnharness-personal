@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "name": "LearnHarness personal learning framework",
+  "description": "Generates supported data/prompts overrides from the current upstream source plus personal appendices, then enables only those override switches. Upstream code, locales, graph, planning, assessment, Anki, and UI remain untouched.",
+  "segments": [
+    {
+      "path": "shared/15-accuracy.md",
+      "appendix": "shared/15-accuracy.md",
+      "agents": ["prober", "teacher", "practice"],
+      "purpose": "Adult-learning lenses, epistemic integrity, verification, and the cross-agent ultralearning doctrine."
+    },
+    {
+      "path": "prober/10-probe-doctrine.md",
+      "appendix": "prober/10-probe-doctrine.md",
+      "agents": ["prober"],
+      "purpose": "Turns the adult-learning lenses into probe questions that actually change the plan; adds metalearning questions."
+    },
+    {
+      "path": "teacher/10-planning.md",
+      "appendix": "teacher/10-planning.md",
+      "agents": ["teacher"],
+      "purpose": "Optional ten-principle orientation, discipline-specific evidence standards, and ultralearning planning implications."
+    },
+    {
+      "path": "practice/00-base.md",
+      "appendix": "practice/00-base.md",
+      "agents": ["practice"],
+      "purpose": "Adult autonomy in practice, directness, targeted drills, diagnostic feedback, retention-after-understanding, and evaluated experimentation."
+    }
+  ],
+  "untouched": [
+    "src/agent/prompts/** (source segments and all locales)",
+    "src/agent/prompt-segments.ts",
+    "src/agent/teacher-agent.ts",
+    "src/store/prompt-overrides.ts",
+    "src/core/settings.ts",
+    "src/server/chat-handler.ts",
+    "Knowledge Graph schema",
+    "planning algorithms and plan-tree",
+    "assessment, scoring, and question generation",
+    "Anki integration",
+    "turn pipeline, agents, and subagents",
+    "UI and settings unrelated to agent.prompts switches"
+  ]
+}
